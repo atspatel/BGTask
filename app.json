@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "BGTask",
-    "slug": "BGTask",
+    "owner": "mindginieapp",
+    "name": "MindGinie",
+    "slug": "mindginie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,20 +12,46 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.mind.ginie"
     },
     "android": {
+      "package": "com.mind.ginie",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.health.READ_STEPS",
+        "android.permission.health.READ_HEART_RATE",
+        "android.permission.health.READ_RESTING_HEART_RATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3f9b4009-0c06-4983-9375-9cbd562780fe"
+      }
+    },
+    "plugins": [
+      "expo-notifications",
+      "react-native-health-connect",
+      "react-native-health",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "minSdkVersion": 26
+          }
+        }
+      ]
+    ]
   }
 }

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "567038449313",
+    "project_id": "mindginie-394006",
+    "storage_bucket": "mindginie-394006.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567038449313:android:91df9de789516c48a4c2e0",
+        "android_client_info": {
+          "package_name": "com.mind.ginie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567038449313-9d83tfsq3pucle0s4kqiqht54kmvthli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7fSRTurOFboTIv26OnAZyJOk9zg9oWwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567038449313-9d83tfsq3pucle0s4kqiqht54kmvthli.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "567038449313-ihtssfl01om0oa3755ikvhvltjnlf08k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mind.ginie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
