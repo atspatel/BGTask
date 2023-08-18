@@ -77,11 +77,10 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
-    ndkVersion rootProject.ext.ndkVersion
-
-    compileSdkVersion rootProject.ext.compileSdkVersion
-
+    compileSdk 34
     namespace 'com.mind.ginie'
+    testNamespace 'com.mind.ginie'
+
     defaultConfig {
         applicationId 'com.mind.ginie'
         minSdkVersion rootProject.ext.minSdkVersion
