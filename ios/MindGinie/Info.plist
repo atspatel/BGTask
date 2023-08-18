@@ -54,6 +54,10 @@
         </dict>
       </dict>
     </dict>
+    <key>NSHealthShareUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to read heart rate data</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to update health info</string>
     <key>UIBackgroundModes</key>
     <array>
       <string>fetch</string>

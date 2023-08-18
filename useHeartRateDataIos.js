@@ -48,13 +48,13 @@ const useHeartRateDataIos = (date) => {
     }
 
     const options = {
-      date: date.toISOString(),
-      includeManuallyAdded: false,
+      startDate: new Date(date.setHours(0, 0, 0, 0)).toISOString(),
+      endDate: new Date(date.setHours(23, 59, 59, 999)).toISOString(),
     };
 
     AppleHealthKit.getHeartRateSamples(options, (err, results) => {
       if (err) {
-        console.log("Error getting the steps");
+        console.log("Error getting the steps", err);
         return;
       }
       setHeartRate(results);
@@ -62,7 +62,7 @@ const useHeartRateDataIos = (date) => {
 
     AppleHealthKit.getRestingHeartRateSamples(options, (err, results) => {
       if (err) {
-        console.log("Error getting the steps:", err);
+        // console.log("Error getting the steps:", err);
         return;
       }
       setRestingHeartRate(results);

@@ -15,7 +15,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.mind.ginie"
+      "bundleIdentifier": "com.mind.ginie",
+      "infoPlist": {
+        "NSHealthShareUsageDescription": "This app uses the heart rate data to measure stress level."
+      }
     },
     "android": {
       "package": "com.mind.ginie",
@@ -41,7 +44,12 @@
     "plugins": [
       "expo-notifications",
       "react-native-health-connect",
-      "react-native-health",
+      [
+        "react-native-health",
+        {
+          "healthSharePermission": "Allow $(PRODUCT_NAME) to read heart rate data"
+        }
+      ],
       [
         "expo-build-properties",
         {

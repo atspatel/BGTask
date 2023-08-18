@@ -11,6 +11,8 @@ import {
 import useHeartRateDataAndroid from "./useHeartRateDataAndroid";
 import useHeartRateDataIos from "./useHeartRateDataIos";
 
+import { NativeEventEmitter, NativeModules } from "react-native";
+
 function parseDate(date) {
   const d = new Date(date);
   return { date: d.toLocaleDateString(), time: d.toLocaleTimeString() };
@@ -19,20 +21,15 @@ function parseDate(date) {
 function HeartRateDataComp(props) {
   const { heartRateData } = props;
   return (
-    <View>
-      {heartRateData.map((data) => {
-        const { date, time } = parseDate(data.time);
-        return (
-          <View
-            key={data.time}
-            style={{ alignItems: "center", flexDirection: "row", gap: 20 }}
-          >
-            <Text>{date}</Text>
-            <Text>{time}</Text>
-            <Text style={{ fontWeight: "bold" }}>{data.beatsPerMinute}</Text>
-          </View>
-        );
-      })}
+    <View
+      key={heartRateData.startDate}
+      style={{ alignItems: "center", flexDirection: "row", gap: 20 }}
+    >
+      <Text>{heartRateData.startDate}</Text>
+      {/* <Text>{heartRateData.}</Text> */}
+      <Text style={{ fontWeight: "bold" }}>
+        {parseInt(heartRateData.value)}
+      </Text>
     </View>
   );
 }
@@ -67,25 +64,22 @@ function HeartRateDataIos(props) {
   const { date } = props;
   const { heartRate, restingHeartRate } = useHeartRateDataIos(date);
 
-  console.log(heartRate, "------");
+  // console.log(heartRate, "--++++");
   return (
     <View style={{ flex: 1, marginTop: 60 }}>
       <ScrollView contentContainerStyle={{ alignItems: "center", gap: 15 }}>
         <Text>
           {pDate} {time}
         </Text>
-        {/* {heartRate && (
+        {heartRate && (
           <View style={{ gap: 5 }}>
-            {heartRate
-              .slice(0)
-              .reverse()
-              .map((item, index) => {
-                return item ? (
-                  <HeartRateDataComp key={index} heartRateData={item.samples} />
-                ) : null;
-              })}
+            {heartRate.map((item, index) => {
+              return item ? (
+                <HeartRateDataComp key={index} heartRateData={item} />
+              ) : null;
+            })}
           </View>
-        )} */}
+        )}
       </ScrollView>
     </View>
   );
@@ -94,11 +88,24 @@ function HeartRateDataIos(props) {
 const date = new Date();
 const { date: pDate, time } = parseDate(date.toISOString());
 export default function App() {
-  if (Platform.OS !== "android") {
+  useEffect(() => {
+    console.log("here...");
+    new NativeEventEmitter(NativeModules.AppleHealthKit).addListener(
+      "healthKit:HeartRate:new",
+      async () => {
+        console.log("--> observer triggered");
+      }
+    );
+  }, []);
+  if (Platform.OS === "android") {
     return <HeartRateDataAndroid date={date} />;
   }
-  if (Platform.OS !== "ios") {
-    return <HeartRateDataIos date={date} />;
+  if (Platform.OS === "ios") {
+    return (
+      <View style={{ flex: 1 }}>
+        <HeartRateDataIos date={date} />
+      </View>
+    );
   }
   return null;
 }
