@@ -1,4 +1,5 @@
 package com.mind.ginie;
+import com.mind.ginie.HeartbeatEventService;
 
 import android.app.Notification;
 import android.app.PendingIntent;

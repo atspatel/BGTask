@@ -1,13 +1,26 @@
 
+package com.mind.ginie;
+
+import java.util.Collections;
+import java.util.Arrays;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.uimanager.ViewManager;
+
+import com.mind.ginie.HeartbeatModule;
+import java.util.List;
+
+
 public class HeartbeatPackage implements ReactPackage {
-  @Override
+  // @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     return Arrays.<NativeModule>asList(
       new HeartbeatModule(reactContext)
     );
   }
 
-  @Override
+  // @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     return Collections.emptyList();
   }
