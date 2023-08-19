@@ -41,25 +41,6 @@
         "projectId": "3f9b4009-0c06-4983-9375-9cbd562780fe"
       }
     },
-    "plugins": [
-      "expo-notifications",
-      "react-native-health-connect",
-      [
-        "react-native-health",
-        {
-          "healthSharePermission": "Allow $(PRODUCT_NAME) to read heart rate data"
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
-            "minSdkVersion": 26
-          }
-        }
-      ]
-    ]
+    "plugins": ["expo-notifications"]
   }
 }

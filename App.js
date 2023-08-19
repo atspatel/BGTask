@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
 
 const App = () => {
   const heartBeat = useSelector((state) => {
-    console.log(state);
     return state.heartBeat.heartBeat;
   });
   const imageSize = heartBeat ? 150 : 100;
