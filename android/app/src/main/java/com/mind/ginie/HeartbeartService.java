@@ -65,7 +65,7 @@ public class HeartbeartService extends Service {
         this.handler.post(this.runnableCode);
         createNotificationChannel();
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Heartbeat service")
                 .setContentText("Running...")
