@@ -1,63 +1,93 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { useSelector } from "react-redux";
-import Heartbeat from "./Heartbeat";
-import heart from "./heart.png";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, ScrollView, Platform } from "react-native";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  view: {
-    flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "gray",
-    padding: 10,
-    margin: 10,
-  },
-  text: {
-    fontSize: 20,
-    color: "white",
-  },
-});
+import useHeartRateDataIos from "./useHeartRateDataIos";
 
-const App = () => {
-  const heartBeat = useSelector((state) => {
-    console.log(state);
-    return state.heartBeat.heartBeat;
-  });
-  const imageSize = heartBeat ? 150 : 100;
+import { NativeEventEmitter, NativeModules } from "react-native";
+
+import HeartRateDataAndroid from "./HeartRateDataAndroid";
+
+function parseDate(date) {
+  const d = new Date(date);
+  return { date: d.toLocaleDateString(), time: d.toLocaleTimeString() };
+}
+
+function HeartRateDataComp(props) {
+  const { heartRateData } = props;
   return (
-    <View style={styles.container}>
-      <View style={styles.view}>
-        <Image
-          source={heart}
-          style={{ width: imageSize, height: imageSize }}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.view}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => Heartbeat.startService()}
-        >
-          <Text style={styles.instructions}>Start</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => Heartbeat.stopService()}
-        >
-          <Text style={styles.instructions}>Stop</Text>
-        </TouchableOpacity>
-      </View>
+    <View
+      key={heartRateData.startDate}
+      style={{ alignItems: "center", flexDirection: "row", gap: 20 }}
+    >
+      <Text>{heartRateData.startDate}</Text>
+      {/* <Text>{heartRateData.}</Text> */}
+      <Text style={{ fontWeight: "bold" }}>
+        {parseInt(heartRateData.value)}
+      </Text>
     </View>
   );
-};
+}
 
-export default App;
+function HeartRateDataIos(props) {
+  const { date } = props;
+  const { heartRate, restingHeartRate } = useHeartRateDataIos(date);
+
+  // console.log(heartRate, "--++++");
+  return (
+    <View style={{ flex: 1, marginTop: 60 }}>
+      <ScrollView contentContainerStyle={{ alignItems: "center", gap: 15 }}>
+        <Text>
+          {pDate} {time}
+        </Text>
+        {heartRate && (
+          <View style={{ gap: 5 }}>
+            {heartRate.map((item, index) => {
+              return item ? (
+                <HeartRateDataComp key={index} heartRateData={item} />
+              ) : null;
+            })}
+          </View>
+        )}
+      </ScrollView>
+    </View>
+  );
+}
+
+const date = new Date();
+const { date: pDate, time } = parseDate(date.toISOString());
+export default function App() {
+  useEffect(() => {
+    console.log("here...");
+    new NativeEventEmitter(NativeModules.AppleHealthKit).addListener(
+      "healthKit:HeartRate:new",
+      async () => {
+        console.log("--> observer triggered");
+      }
+    );
+  }, []);
+  if (Platform.OS === "android") {
+    return <HeartRateDataAndroid date={date} />;
+  }
+  if (Platform.OS === "ios") {
+    return (
+      <View style={{ flex: 1 }}>
+        <HeartRateDataIos date={date} />
+      </View>
+    );
+  }
+  return null;
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    marginTop: 330,
+    width: "100%",
+    backgroundColor: "green",
+  },
+  textContainer: {
+    margin: 10,
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
+});

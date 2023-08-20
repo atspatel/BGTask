@@ -46,6 +46,11 @@ function HeartRateDataComp(props) {
   );
 }
 
+function parseDate(date) {
+  const d = new Date(date);
+  return { date: d.toLocaleDateString(), time: d.toLocaleTimeString() };
+}
+
 const date = new Date();
 const { date: pDate, time } = parseDate(date.toISOString());
 export default function HeartRateDataAndroid(props) {
