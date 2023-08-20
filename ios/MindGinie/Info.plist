@@ -55,7 +55,7 @@
       </dict>
     </dict>
     <key>NSHealthShareUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to read heart rate data</string>
+    <string>This app uses the heart rate data to measure stress level.</string>
     <key>NSHealthUpdateUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to update health info</string>
     <key>UIBackgroundModes</key>
