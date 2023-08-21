@@ -15,10 +15,10 @@ import store, { setHeartBeat } from "./store";
 
 const MyHeadlessTask = async () => {
   console.log("Receiving HeartBeat!");
-  store.dispatch(setHeartBeat(true));
-  setTimeout(() => {
-    store.dispatch(setHeartBeat(false));
-  }, 1000);
+  // store.dispatch(setHeartBeat(true));
+  // setTimeout(() => {
+  //   store.dispatch(setHeartBeat(false));
+  // }, 1000);
 };
 
 const RNRedux = () => (
@@ -28,5 +28,4 @@ const RNRedux = () => (
 );
 
 AppRegistry.registerHeadlessTask("Heartbeat", () => MyHeadlessTask);
-// AppRegistry.registerComponent(appName, () => RNRedux);
 registerRootComponent(RNRedux);
