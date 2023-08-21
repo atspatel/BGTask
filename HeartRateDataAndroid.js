@@ -23,7 +23,7 @@ function parseDate(date) {
   return { date: d.toLocaleDateString(), time: d.toLocaleTimeString() };
 }
 
-export default function HeartRateDataAndroid(props) {
+export default function HeartRateDataAndroid() {
   const date = new Date();
   const { date: pDate, time } = parseDate(date.toISOString());
   const { heartRate, restingHeartRate } = readHealthConnectDataAndroid(date);

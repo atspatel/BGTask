@@ -1,29 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import Heartbeat from "./Heartbeat";
-import heart from "./heart.png";
+import HeartRateDataAndroid from "./HeartRateDataAndroid";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  view: {
-    flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "gray",
-    padding: 10,
-    margin: 10,
-  },
-  text: {
-    fontSize: 20,
-    color: "white",
   },
 });
 
@@ -34,14 +17,8 @@ const App = () => {
   const imageSize = heartBeat ? 150 : 100;
   return (
     <View style={styles.container}>
-      <View style={styles.view}>
-        <Image
-          source={heart}
-          style={{ width: imageSize, height: imageSize }}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.view}>
+      {Platform.OS === "android" && <HeartRateDataAndroid />}
+      {/* <View style={styles.view}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => Heartbeat.startService()}
@@ -54,7 +31,7 @@ const App = () => {
         >
           <Text style={styles.instructions}>Stop</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
