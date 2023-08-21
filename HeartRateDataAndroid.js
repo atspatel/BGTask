@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Text, View, ScrollView, Button } from "react-native";
 
-import readHealthConnectDataAndroid from "./readHealthConnectDataAndroid";
+import useHeartRateDataAndroid from "./useHeartRateDataAndroid";
 
 function HeartRateDataComp(props) {
   const { heartRateData } = props;
@@ -10,9 +10,9 @@ function HeartRateDataComp(props) {
       key={heartRateData.startDate}
       style={{ alignItems: "center", flexDirection: "row", gap: 20 }}
     >
-      <Text>{heartRateData.startDate}</Text>
+      <Text>{heartRateData.time}</Text>
       <Text style={{ fontWeight: "bold" }}>
-        {parseInt(heartRateData.value)}
+        {parseInt(heartRateData.beatsPerMinute)}
       </Text>
     </View>
   );
@@ -23,13 +23,12 @@ function parseDate(date) {
   return { date: d.toLocaleDateString(), time: d.toLocaleTimeString() };
 }
 
+const date = new Date();
+const { date: pDate, time } = parseDate(date.toISOString());
 export default function HeartRateDataAndroid() {
-  const date = new Date();
-  const { date: pDate, time } = parseDate(date.toISOString());
-  const { heartRate, restingHeartRate } = readHealthConnectDataAndroid(date);
-
+  const { heartRate, restingHeartRate } = useHeartRateDataAndroid(date);
   return (
-    <View style={{ flex: 1, marginTop: 60, gap: 10 }}>
+    <View style={{ flex: 1, gap: 10 }}>
       <ScrollView contentContainerStyle={{ alignItems: "center", gap: 15 }}>
         <Text>
           {pDate} {time}
@@ -41,7 +40,7 @@ export default function HeartRateDataAndroid() {
               .reverse()
               .map((item, index) => {
                 return item ? (
-                  <HeartRateDataComp key={index} heartRateData={item.samples} />
+                  <HeartRateDataComp key={index} heartRateData={item.samples[0]} />
                 ) : null;
               })}
           </View>

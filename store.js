@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 
 const initialState = {
   heartBeat: false,
+  isRunning: false
 };
 
 export const heartBeatSlice = createSlice({
@@ -11,7 +12,8 @@ export const heartBeatSlice = createSlice({
   reducers: {
     setHeartBeat: (state, action) => {
       const { payload } = action;
-      state.heartBeat = payload;
+      state.heartBeat = payload.heartBeat;
+      state.isRunning = payload.isRunning;
     },
   },
 });
