@@ -10,7 +10,7 @@ function HeartRateDataComp(props) {
       key={heartRateData.startDate}
       style={{ alignItems: "center", flexDirection: "row", gap: 20 }}
     >
-      <Text>{heartRateData.time}</Text>
+      <Text>{new Date(heartRateData.time).toLocaleString()}</Text>
       <Text style={{ fontWeight: "bold" }}>
         {parseInt(heartRateData.beatsPerMinute)}
       </Text>
@@ -26,7 +26,7 @@ function parseDate(date) {
 const date = new Date();
 const { date: pDate, time } = parseDate(date.toISOString());
 export default function HeartRateDataAndroid() {
-  const { heartRate, restingHeartRate } = useHeartRateDataAndroid(date);
+  const { heartRate, restingHeartRate } = useHeartRateDataAndroid();
   return (
     <View style={{ flex: 1, gap: 10 }}>
       <ScrollView contentContainerStyle={{ alignItems: "center", gap: 15 }}>
@@ -40,7 +40,10 @@ export default function HeartRateDataAndroid() {
               .reverse()
               .map((item, index) => {
                 return item ? (
-                  <HeartRateDataComp key={index} heartRateData={item.samples[0]} />
+                  <HeartRateDataComp
+                    key={index}
+                    heartRateData={item.samples[0]}
+                  />
                 ) : null;
               })}
           </View>

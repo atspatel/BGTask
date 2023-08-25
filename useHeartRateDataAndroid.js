@@ -7,7 +7,37 @@ import {
   readRecords,
 } from "react-native-health-connect";
 
-const useHeartRateDataAndroid = (date) => {
+export async function readSampleData(startTime, endTime) {
+  // const isInitialized = await initialize();
+  // if (!isInitialized) {
+  //   return;
+  // }
+
+  // // request permissions
+  // await requestPermission([
+  //   { accessType: "read", recordType: "Steps" },
+  //   { accessType: "read", recordType: "HeartRate" },
+  //   { accessType: "read", recordType: "RestingHeartRate" },
+  // ]);
+
+  const date = new Date();
+  const sTime = startTime ?? new Date(date.setHours(0, 0, 0, 0));
+  const eTime = endTime ?? new Date();
+
+  const timeRangeFilter = {
+    operator: "between",
+    startTime: sTime.toISOString(),
+    endTime: eTime.toISOString(),
+  };
+
+  const heartRateData = await readRecords("HeartRate", { timeRangeFilter });
+  const restingHeartRateData = await readRecords("RestingHeartRate", {
+    timeRangeFilter,
+  });
+  return { heartRateData, restingHeartRateData };
+}
+
+const useHeartRateDataAndroid = (startTime, endTime) => {
   const [heartRate, setHeartRate] = useState(null);
   const [restingHeartRate, setRestingHeartRate] = useState(null);
 
@@ -25,10 +55,14 @@ const useHeartRateDataAndroid = (date) => {
       { accessType: "read", recordType: "RestingHeartRate" },
     ]);
 
+    const date = new Date();
+    const sTime = startTime ?? new Date(date.setHours(0, 0, 0, 0));
+    const eTime = endTime ?? new Date();
+
     const timeRangeFilter = {
       operator: "between",
-      startTime: new Date(date.setHours(0, 0, 0, 0)).toISOString(),
-      endTime: new Date(date.setHours(23, 59, 59, 999)).toISOString(),
+      startTime: sTime.toISOString(),
+      endTime: eTime.toISOString(),
     };
 
     // HeartRate
@@ -47,7 +81,7 @@ const useHeartRateDataAndroid = (date) => {
       return;
     }
     readSampleData();
-  }, [date]);
+  }, [startTime, endTime]);
 
   return {
     heartRate,

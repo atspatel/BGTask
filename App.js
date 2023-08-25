@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Heartbeat from "./Heartbeat";
 import HeartRateDataAndroid from "./HeartRateDataAndroid";
 
-import { setHeartBeat } from "./store";
+import store, { setHeartBeat } from "./store";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,32 +29,32 @@ const styles = StyleSheet.create({
 });
 
 function App() {
-  const { isRunning } = useSelector((state) => {
+  const { isRunning, lastFetched } = useSelector((state) => {
     return state.heartBeat;
   });
 
   function onClickStart() {
-    setHeartBeat({ heartBeat: null, isRunning: true });
+    store.dispatch(setHeartBeat({ heartBeat: null, isRunning: true }));
+    Heartbeat.stopService();
     Heartbeat.startService();
   }
   function onClickStop() {
-    setHeartBeat({ heartBeat: null, isRunning: false });
+    store.dispatch(setHeartBeat({ heartBeat: null, isRunning: false }));
     Heartbeat.stopService();
   }
 
-  console.log(isRunning);
   return (
     <View style={styles.container}>
       <View style={styles.view}>
-        {/* {isRunning ? ( */}
+        {isRunning ? (
           <TouchableOpacity style={styles.button} onPress={onClickStop}>
             <Text style={styles.instructions}>Stop</Text>
           </TouchableOpacity>
-        {/* ) : ( */}
+        ) : (
           <TouchableOpacity style={styles.button} onPress={onClickStart}>
             <Text style={styles.instructions}>Start</Text>
           </TouchableOpacity>
-        {/* )} */}
+        )}
       </View>
       {Platform.OS === "android" && <HeartRateDataAndroid />}
     </View>
