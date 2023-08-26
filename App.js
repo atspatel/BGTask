@@ -7,10 +7,16 @@ import {
   Text,
 } from "react-native";
 import { useSelector } from "react-redux";
-import Heartbeat from "./Heartbeat";
-import HeartRateDataAndroid from "./HeartRateDataAndroid";
+import { StatusBar } from "expo-status-bar";
 
-import store, { setHeartBeat } from "./store";
+import { store } from "reducers/store";
+
+import Heartbeat from "./Heartbeat";
+import HeartRateDataAndroid from "components/HeartRateDataAndroid";
+import PushNotification from "components/notifications/PushNotification";
+import { appColor } from "constants/theme";
+
+import {} from "";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,35 +35,39 @@ const styles = StyleSheet.create({
 });
 
 function App() {
-  const { isRunning, lastFetched } = useSelector((state) => {
-    return state.heartBeat;
+  const { isRunning } = useSelector((state) => {
+    return state.heartbeatService;
   });
 
   function onClickStart() {
-    store.dispatch(setHeartBeat({ heartBeat: null, isRunning: true }));
+    store.dispatch(startHeartbeatService({ isRunning: true }));
     Heartbeat.stopService();
     Heartbeat.startService();
   }
   function onClickStop() {
-    store.dispatch(setHeartBeat({ heartBeat: null, isRunning: false }));
+    store.dispatch(startHeartbeatService({ isRunning: false }));
     Heartbeat.stopService();
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.view}>
-        {isRunning ? (
-          <TouchableOpacity style={styles.button} onPress={onClickStop}>
-            <Text style={styles.instructions}>Stop</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.button} onPress={onClickStart}>
-            <Text style={styles.instructions}>Start</Text>
-          </TouchableOpacity>
-        )}
+    <>
+      <StatusBar style="dark" backgroundColor={appColor.statusBarColor} />
+      <PushNotification />
+      <View style={styles.container}>
+        <View style={styles.view}>
+          {isRunning ? (
+            <TouchableOpacity style={styles.button} onPress={onClickStop}>
+              <Text style={styles.instructions}>Stop</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.button} onPress={onClickStart}>
+              <Text style={styles.instructions}>Start</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        {Platform.OS === "android" && <HeartRateDataAndroid />}
       </View>
-      {Platform.OS === "android" && <HeartRateDataAndroid />}
-    </View>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Text, View, ScrollView, Button } from "react-native";
 
-import useHeartRateDataAndroid from "./useHeartRateDataAndroid";
+import useHeartRateDataAndroid from "../../useHeartRateDataAndroid";
 
 function HeartRateDataComp(props) {
   const { heartRateData } = props;
