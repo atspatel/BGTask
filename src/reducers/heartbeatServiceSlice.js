@@ -8,12 +8,12 @@ export const heartbeatServiceSlice = createSlice({
   name: "heartBeat",
   initialState,
   reducers: {
-    startHeartbeatService: (state, action) => {
+    setHeartbeatServiceState: (state, action) => {
       const { payload } = action;
       state.isRunning = payload.isRunning;
     },
   },
 });
 
-export const { startHeartbeatService } = heartbeatServiceSlice.actions;
+export const { setHeartbeatServiceState } = heartbeatServiceSlice.actions;
 export default heartbeatServiceSlice.reducer;
